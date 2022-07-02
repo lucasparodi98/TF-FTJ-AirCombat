@@ -145,7 +145,7 @@ void MainGame::update() {
 		_time += 0.002f;
 		updateAgents();
 		_inputManager.update();
-		_camera.setPosition(_player->getPosition());
+		_camera.setPosition(_player->getPosition() + glm::vec2(0.0f, 200.0f));
 	}
 }
 

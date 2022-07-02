@@ -1,6 +1,8 @@
 #pragma once
 #include "Agent.h"
+#include "Enemy.h"
 
+class Enemy;
 class Bullet : public Agent
 {
 protected:

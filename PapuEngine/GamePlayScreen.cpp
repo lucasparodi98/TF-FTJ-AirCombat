@@ -135,7 +135,7 @@ void GamePlayScreen::update() {
 		_camera.update();
 		updateAgents();
 		_inputManager.update();
-		_camera.setPosition(_player->getPosition());
+		_camera.setPosition(_player->getPosition() + glm::vec2(0.0f, 200.0f));
 		lag = 0;
 	}
 
@@ -196,12 +196,12 @@ void GamePlayScreen::updateAgents() {
 		for (size_t j = 1; j < _bullets.size(); j++)
 		{
 			if (_enemies[i]->collideWithAgent(_bullets[j])) {
-				/*delete _enemies[i];
+				delete _enemies[i];
 				_enemies[i] = _enemies.back();
 				_enemies.pop_back();
 				delete _bullets[j];
 				_bullets[j] = _bullets.back();
-				_bullets.pop_back();*/
+				_bullets.pop_back();
 			}
 		}
 	}
