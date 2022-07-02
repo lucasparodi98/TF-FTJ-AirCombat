@@ -24,6 +24,16 @@ GamePlayScreen::~GamePlayScreen()
 
 void GamePlayScreen::build() {
 	_levels.push_back(new Level("Levels/level0.txt"));
+
+	//Crear Islas iniciales
+	_objects.push_back(new Object_Background);
+	_objects.back()->init(0.1f, glm::vec2(150.0f, 500.0f));
+	_objects.push_back(new Object_Background);
+	_objects.back()->init(0.1f, glm::vec2(400.0f, 350.0f));
+	_objects.push_back(new Object_Background);
+	_objects.back()->init(0.1f, glm::vec2(650.0f, 800.0f));
+
+
 	_player = new Player();
 	_currenLevel = 0;
 	_player->init(1.0f, _levels[_currenLevel]->getPlayerPosition(), &_inputManager, &_camera);
@@ -37,22 +47,22 @@ void GamePlayScreen::build() {
 	std::uniform_int_distribution<int>randPosY(
 		1, _levels[_currenLevel]->getHeight() - 2);
 
-	for (int i = 0; i < _levels[_currenLevel]->getNumHumans(); i++)
+	/*for (int i = 0; i < _levels[_currenLevel]->getNumHumans(); i++)
 	{
 		_humans.push_back(new Human());
 		glm::vec2 pos(randPosX(randomEngine) * TILE_WIDTH,
 			randPosY(randomEngine) * TILE_WIDTH);
 		_humans.back()->init(1.0f, pos);
-	}
+	}*/
 
 	const std::vector<glm::vec2>& zombiePosition =
 		_levels[_currenLevel]->getZombiesPosition();
 
-	for (size_t i = 0; i < zombiePosition.size(); i++)
+	/*for (size_t i = 0; i < zombiePosition.size(); i++)
 	{
 		_zombies.push_back(new Zombie());
 		_zombies.back()->init(1.3f, zombiePosition[i]);
-	}
+	}*/
 	background = new Background("Textures/Fondos/airPlanesBackground.png");
 }
 void GamePlayScreen::destroy() {
@@ -95,6 +105,13 @@ void GamePlayScreen::draw() {
 
 	_spriteBatch.begin();
 	//background->draw(_spriteBatch);
+
+	//Dibujar Objetos de Fondo
+	for (size_t i = 0; i < _objects.size(); i++)
+	{
+		_objects[i]->draw(_spriteBatch);
+	}
+
 	_player->draw(_spriteBatch);
 
 	//Dibujar Balas
@@ -103,16 +120,7 @@ void GamePlayScreen::draw() {
 		_bullets[i]->draw(_spriteBatch);
 	}
 
-	for (size_t i = 0; i < _humans.size(); i++)
-	{
-		_humans[i]->draw(_spriteBatch);
-	}
-
-	for (size_t i = 0; i < _zombies.size(); i++)
-	{
-		_zombies[i]->draw(_spriteBatch);
-	}
-
+	
 	//Dibujar Enemigos
 	for (size_t i = 0; i < _enemies.size(); i++)
 	{
@@ -135,7 +143,7 @@ void GamePlayScreen::update() {
 		_camera.update();
 		updateAgents();
 		_inputManager.update();
-		_camera.setPosition(_player->getPosition());
+		_camera.setPosition(_player->getPosition() + glm::vec2(0.0f, 200.0f));
 		lag = 0;
 	}
 
@@ -149,13 +157,6 @@ void GamePlayScreen::updateAgents() {
 		_humans, _zombies);
 	if (cooldownBullet > 0) cooldownBullet--;
 
-
-	for (size_t i = 0; i < _humans.size(); i++)
-	{
-		_humans[i]->update(_levels[_currenLevel]->getLevelData(),
-			_humans, _zombies);
-	}
-
 	//Balas
 	for (size_t i = 0; i < _bullets.size(); i++)
 	{
@@ -167,15 +168,25 @@ void GamePlayScreen::updateAgents() {
 		}
 	}
 
-	//Crear enemigos
-	int _enemyGenerator = rand() % 500 + 1;
-	int _enemyPosition = rand() % 680 + 64;
+	//Crear objetos aleatoriamente
+	int _generator = rand() % 500 + 1;
+	int _position = rand() % 680 + 64;
+
 	//std::cout << _enemyPosition << endl;
 
-	if (_enemyGenerator == 100) {
+	if (_generator == 100 && _enemies.size() < 10) {
 		_enemies.push_back(new Enemy);
-		_enemies.back()->init(0.3f, glm::vec2(_enemyPosition, 1000.0f));
+		_enemies.back()->init(0.3f, glm::vec2(_position, 1000.0f));
 	}
+
+	_generator = rand() % 3000 + 1;
+
+	//Agregar objeto de fondo
+	if (_generator < 5 && _objects.size() < 30) {
+		_objects.push_back(new Object_Background);
+		_objects.back()->init(0.1f, glm::vec2(_position, 1000.0f));
+	}
+
 	//Update Enemigos
 	for (int i = 0; i < _enemies.size(); i++)
 	{
@@ -188,6 +199,18 @@ void GamePlayScreen::updateAgents() {
 		}
 	}
 
+	//Update Objeetos de fondo
+	for (int i = 0; i < _objects.size(); i++)
+	{
+		_objects[i]->update(_levels[_currenLevel]->getLevelData(),
+			_humans, _zombies);
+		if (_objects[i]->getPosition().y < -100.0f) {
+			delete _objects[i];
+			_objects[i] = _objects.back();
+			_objects.pop_back();
+		}
+	}
+
 	//Impactar enemigos
 	for (size_t i = 0; i < _enemies.size(); i++)
 	{
@@ -196,12 +219,13 @@ void GamePlayScreen::updateAgents() {
 		for (size_t j = 1; j < _bullets.size(); j++)
 		{
 			if (_enemies[i]->collideWithAgent(_bullets[j])) {
-				/*delete _enemies[i];
+				delete _enemies[i];
 				_enemies[i] = _enemies.back();
 				_enemies.pop_back();
 				delete _bullets[j];
 				_bullets[j] = _bullets.back();
-				_bullets.pop_back();*/
+				_bullets.pop_back();
+				break;
 			}
 		}
 	}

@@ -50,7 +50,10 @@ void Enemy::draw(SpriteBacth& spritebatch)
 
 void Enemy::update(const std::vector<std::string>& levelData, std::vector<Human*>& humans, std::vector<Zombie*>& zombies)
 {
-	_position += _direction * _speed;
+	_position.y += _direction.y * _speed;
+	_position.x += sin(_timerExtra);
+
+	_timerExtra += 0.01f;
 }
 
 

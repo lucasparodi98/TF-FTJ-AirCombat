@@ -14,6 +14,7 @@
 #include "Background.h"
 #include "Bullet.h"
 #include "Enemy.h"
+#include "Object_Background.h"
 
 class GamePlayScreen : public IGameScreen
 {
@@ -31,6 +32,7 @@ private:
 	vector<Zombie*> _zombies;
 	vector<Bullet*> _bullets;
 	vector<Enemy*> _enemies;
+	vector<Object_Background*> _objects;
 	Background* background;
 	Player* _player;
 	int _currenLevel;

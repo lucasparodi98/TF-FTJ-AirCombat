@@ -159,6 +159,9 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\Zombie\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Object_Background.cpp">
+      <Filter>Source Files\Zombie\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h">
@@ -252,6 +255,9 @@
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Background.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>

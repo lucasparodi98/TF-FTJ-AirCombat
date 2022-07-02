@@ -7,10 +7,12 @@ private:
 	glm::vec2 _direction;
 	//Retrasar la animación
 	int _timer = 0;
+	float _timerExtra = 0.00f;
 	//Contador de sprite
 	int _spriteCount = 1;
 	//Vidas
 	int _healthPoints = 1;
+
 public:
 	Enemy();
 	~Enemy();
