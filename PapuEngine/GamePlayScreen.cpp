@@ -225,7 +225,10 @@ void GamePlayScreen::updateAgents() {
 				delete _bullets[j];
 				_bullets[j] = _bullets.back();
 				_bullets.pop_back();
+<<<<<<< HEAD
 				break;
+=======
+>>>>>>> 4e5c8025badb1c5349fd7a8bf74ec853f6d2d086
 			}
 		}
 	}
