@@ -6,6 +6,7 @@ class Object_Background : public Agent
 protected:
 	glm::vec2 _direction;
 	//Tiempo de vida del objeto
+	float _size;
 public:
 	Object_Background();
 	~Object_Background();

@@ -1,6 +1,6 @@
 #include "GamePlayScreen.h"
 #include "Game.h"
-
+#include "ScreenIndices.h"
 #include "ImageLoader.h"
 #include <iostream>
 #include "ResourceManager.h"
@@ -225,11 +225,18 @@ void GamePlayScreen::updateAgents() {
 				delete _bullets[j];
 				_bullets[j] = _bullets.back();
 				_bullets.pop_back();
-<<<<<<< HEAD
 				break;
-=======
->>>>>>> 4e5c8025badb1c5349fd7a8bf74ec853f6d2d086
 			}
+		}
+	}
+
+	for (size_t i = 0; i < _enemies.size(); i++)
+	{
+		_enemies[i]->update(_levels[_currenLevel]->getLevelData(),
+			_humans, _zombies);
+
+		if (_enemies[i]->collideWithAgent(_player)) {
+			_currentState = ScreenState::CHANGE_NEXT;
 		}
 	}
 
@@ -279,9 +286,9 @@ void GamePlayScreen::checkInput() {
 }
 
 int GamePlayScreen::getNextScreen() const {
-	return -1;
+	return SCREEN_INDEX_GAMEOVER;
 };
 
 int GamePlayScreen::getPreviousScreen() const {
-	return -1;
+	return SCREEN_INDEX_GAMEOVER;
 }

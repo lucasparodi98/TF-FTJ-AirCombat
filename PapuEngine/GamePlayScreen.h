@@ -19,7 +19,7 @@
 class GamePlayScreen : public IGameScreen
 {
 protected:
-	int _screenIndex = 1;
+	int _screenIndex = 2;
 private:
 	GLS_Program _program;
 	Camera2D _camera;

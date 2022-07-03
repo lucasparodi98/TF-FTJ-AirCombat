@@ -6,6 +6,8 @@
 #include "Background.h"
 #include "SpriteFont.h"
 #include "Camera2D.h"
+#include "Button.h"
+#include "InputManager.h"
 
 
 class MenuScreen : public IGameScreen
@@ -17,6 +19,9 @@ private:
 	Window* _window = nullptr;
 	SpriteBacth _spriteBatch;
 	Background* background;
+	Button* _buttonPlay;
+	Button* _buttonMembers;
+	InputManager inputManager;
 	Camera2D _camera;
 	void checkInput(); 
 	SpriteFont* spriteFont;

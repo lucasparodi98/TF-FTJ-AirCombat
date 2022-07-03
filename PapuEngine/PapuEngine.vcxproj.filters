@@ -162,6 +162,15 @@
     <ClCompile Include="Object_Background.cpp">
       <Filter>Source Files\Zombie\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="MemberScreen.cpp">
+      <Filter>Source Files\Plataformer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverScreen.cpp">
+      <Filter>Source Files\Plataformer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h">
@@ -259,6 +268,18 @@
     </ClInclude>
     <ClInclude Include="Object_Background.h">
       <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenIndices.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MemberScreen.h">
+      <Filter>Header Files\Plataformer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScreen.h">
+      <Filter>Header Files\Plataformer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

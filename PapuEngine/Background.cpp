@@ -18,6 +18,6 @@ void Background::draw(SpriteBacth& spriteBatch)
 	color.g = 255;
 	color.a = 255;
 	const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
-	glm::vec4 destRect(-400, -250, 800, 500);
+	glm::vec4 destRect(-300, -400, 600, 800);
 	spriteBatch.draw(destRect, uvRect, _textureID, 0.0f, color);
 }

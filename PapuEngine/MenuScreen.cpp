@@ -1,5 +1,5 @@
 #include "MenuScreen.h"
-
+#include "ScreenIndices.h"
 
 
 MenuScreen::MenuScreen(Window* window):_window(window)
@@ -13,11 +13,16 @@ MenuScreen::~MenuScreen()
 
 void MenuScreen::build()
 {
-	background = new Background("Textures/Fondos/Menu.png");
+	background = new Background("Textures/Fondos/Menu_Avion.png");
+	//_buttonPlay = new Button("Textures/btn_jugar.png");
+	_buttonMembers = new Button("Textures/btn_integrantes.png");
 }
 
 void MenuScreen::destroy()
 {
+	//_buttonPlay = nullptr;
+	_buttonMembers = nullptr;
+	background = nullptr;
 }
 
 void MenuScreen::onExit()
@@ -35,7 +40,7 @@ void MenuScreen::onEntry()
 	_spriteBatch.init();
 	_camera.init(_window->getScreenWidth(),
 		_window->getScreenHeight());
-	spriteFont = new SpriteFont("Fonts/Fuente1.ttf", 40);
+	spriteFont = new SpriteFont("Fonts/Fuente2.ttf", 80);
 	
 }
 
@@ -58,18 +63,17 @@ void MenuScreen::draw()
 
 	_spriteBatch.begin();
 
-	//background->draw(_spriteBatch);
+	background->draw(_spriteBatch);
+	//_buttonPlay->draw(_spriteBatch, glm::vec4(-160, 0, 330, 100));
+	_buttonMembers->draw(_spriteBatch, glm::vec4(-160, -150, 330, 100));
 	char buffer[256];
-	sprintf_s(buffer, "HOLA %d", 100);
+	sprintf_s(buffer, "AIRCOMBAT");
 	Color color;
 	color.r = 255;
 	color.g = 0;
 	color.b = 0;
 	color.a = 255;
-	spriteFont->draw(_spriteBatch, buffer, glm::vec2(-100, 50), glm::vec2(1), 0.0f, color);
-
-	sprintf_s(buffer, "HOLA 2 %d", 100);
-	spriteFont->draw(_spriteBatch, buffer, glm::vec2(-200, 150), glm::vec2(1), 0.0f, color);
+	spriteFont->draw(_spriteBatch, buffer, glm::vec2(-210, 150), glm::vec2(1), 0.0f, color);
 	_spriteBatch.end();
 	_spriteBatch.renderBatch();
 
@@ -82,6 +86,7 @@ void MenuScreen::update()
 {
 	draw();
 	_camera.update();
+	inputManager.update();
 	checkInput();
 }
 
@@ -92,18 +97,36 @@ void MenuScreen::checkInput()
 	{
 		switch (event.type)
 		{
-		default:
+		case SDL_MOUSEBUTTONDOWN:
+			inputManager.pressKey(event.button.button);
 			break;
+		case SDL_MOUSEBUTTONUP:
+			inputManager.releaseKey(event.button.button);
+			break;
+		case SDL_MOUSEMOTION:
+			inputManager.setMouseCoords(event.motion.x, event.motion.y);
+			break;
+		}
+
+		if (inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
+			//presione click;
+			glm::vec2 mouseCoords = _camera.convertScreenToWorl(inputManager.getMouseCoords());
+			/*if (_buttonPlay->click(mouseCoords)) {
+				_currentState = ScreenState::CHANGE_NEXT;
+			}*/
+			if (_buttonMembers->click(mouseCoords)) {
+				_currentState = ScreenState::CHANGE_PREVIOUS;
+			}
 		}
 	}
 }
 
 int MenuScreen::getNextScreen() const
 {
-	return 0;
+	return SCREEN_INDEX_GAMEPLAY;
 }
 
 int MenuScreen::getPreviousScreen() const
 {
-	return 0;
+	return SCREEN_INDEX_MEMBERS;
 }
